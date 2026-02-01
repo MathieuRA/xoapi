@@ -1,0 +1,24 @@
+{
+  "name": "@mra/xoapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test ./tests/*",
+    "start": "node ./src/index.ts",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^25.2.0",
+    "@vates/types": "^1.18.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.18"
+  }
+}
