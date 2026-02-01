@@ -3,7 +3,6 @@ import type { XoAuthenticationToken } from '@vates/types/xo'
 import * as Mixins from './mixins/index.ts'
 
 type Constructor = new (...args: any[]) => {};
-type GenericConstructor<T> = new (...args: any[]) => T;
 type InstanceTypeOf<T> = T extends new (...args: any[]) => infer R ? R : never;
 type UnionToIntersection<U> =
     (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never;
@@ -49,9 +48,9 @@ class XoApi {
         return this._fetch<T>(path, { method: 'POST', body: _body, headers: opts.headers })
     }
 
-    async isAlive(): Promise<boolean> {
+    async isAlive(this: XoApiMixin): Promise<boolean> {
         try {
-            const resp = await this._fetch<{ result: 'pong', timestamp: number }>("/ping")
+            const resp = await this.ping()
             return resp.result === 'pong'
         } catch (error) {
             return false
@@ -107,4 +106,4 @@ function applyMixins(derivedCtor: Constructor, constructors: Constructor[]) {
 
 applyMixins(XoApi, Object.values(Mixins))
 
-export default XoApi as GenericConstructor<XoApiMixin>
+export default XoApi as new (params: { url: URL }) => XoApiMixin;

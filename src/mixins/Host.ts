@@ -15,6 +15,6 @@ export default class Host {
             return hosts.map((href) => hrefToId<XoHost>(href as string))
         }
 
-        return hosts as XoHost[]
+        return hosts
     }
 }

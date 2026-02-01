@@ -3,7 +3,14 @@ export function buildSearchParams(opts: Record<string, unknown>): URLSearchParam
 
     Object.entries(opts).forEach(([key, value]) => {
         if (Array.isArray(value)) {
-            searchParams.append(key, value.join(','))
+            if (key === 'fields') {
+                // fields has to be a comma separated list
+                searchParams.append(key, value.join(','))
+            } else {
+                value.forEach((v) => {
+                    searchParams.append(key, String(v))
+                })
+            }
         } else {
             searchParams.append(key, String(value))
         }

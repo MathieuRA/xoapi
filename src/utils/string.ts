@@ -1,7 +1,5 @@
-import type { XapiXoRecord } from "@vates/types/xo";
+import type { XapiXoRecord, XoRecord } from "@vates/types/xo";
 
-type IdOf<T extends XapiXoRecord> = Extract<XapiXoRecord, { type: T['type'] }>['id'];
-
-export function hrefToId<T extends XapiXoRecord>(string: string): IdOf<T> {
-    return string.split(`/`).pop() as IdOf<T>;
+export function hrefToId<T extends XoRecord>(string: string): T['id'] {
+    return string.split(`/`).pop() as T['id'];
 }

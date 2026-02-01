@@ -15,6 +15,6 @@ export default class Host {
             return pools.map((href) => hrefToId<XoPool>(href as string))
         }
 
-        return pools as XoPool[]
+        return pools
     }
 }

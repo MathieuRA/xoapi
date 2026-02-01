@@ -15,6 +15,6 @@ export default class Vm {
             return vms.map((href) => hrefToId<XoVm>(href as string))
         }
 
-        return vms as XoVm[]
+        return vms
     }
 }
