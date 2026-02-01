@@ -1,6 +1,6 @@
 import type { XoVm } from "@vates/types/xo"
 
-import type { XoApiMixin } from "../Xoapi.ts"
+import type { XoApiMixin } from "../XoApi.ts"
 import { buildPathname } from "../utils/url.ts"
 import { hrefToId } from "../utils/string.ts"
 

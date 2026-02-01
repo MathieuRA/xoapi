@@ -1,7 +1,6 @@
-import type { XapiXoRecord, XoAuthenticationToken } from '@vates/types/xo'
+import type { XoAuthenticationToken } from '@vates/types/xo'
 
 import * as Mixins from './mixins/index.ts'
-import { hrefToId } from './utils/string.ts';
 
 type Constructor = new (...args: any[]) => {};
 type GenericConstructor<T> = new (...args: any[]) => T;
@@ -20,9 +19,8 @@ class XoApi {
     #url: URL
     #token: XoAuthenticationToken | undefined
 
-    constructor(params: { url: URL, token?: string }) {
+    constructor(params: { url: URL }) {
         this.#url = params.url
-        this.#token = undefined
     }
 
     async _fetch<T = undefined>(path: string, { headers, ...opts }: RequestInit = {}): Promise<T> {
@@ -49,28 +47,6 @@ class XoApi {
     async _postFetch<T = undefined>(path: string, opts: { body?: Record<string, unknown>, headers?: HeadersInit } = {}) {
         const _body = opts.body !== undefined ? JSON.stringify(opts.body) : undefined
         return this._fetch<T>(path, { method: 'POST', body: _body, headers: opts.headers })
-    }
-
-    async _getObjects<T extends XapiXoRecord>(): Promise<T['id'][]>
-    async _getObjects<T extends XapiXoRecord, Fields extends "*">(opts: { fields: Fields, filter?: string }): Promise<T[]>
-    async _getObjects<T extends XapiXoRecord, Fields extends readonly (keyof T)[]>(opts: { fields: Fields, filter?: string }): Promise<(Pick<T, Fields[number]>)[]>
-    async _getObjects<T extends XapiXoRecord, Fields extends readonly (keyof T)[] | '*'>(this: XoApiMixin, opts: { fields?: Fields, filter?: string } = {}) {
-        const searchParams = new URLSearchParams()
-
-        if (opts.fields !== undefined) {
-            searchParams.append("fields", opts.fields === '*' ? opts.fields : opts.fields.join(','))
-        }
-
-        if (opts.filter !== undefined) {
-            searchParams.append("filter", opts.filter)
-        }
-
-        const vms = await this._fetch<string[] | Partial<T>[]>(`/vms${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`)
-        if (!searchParams.has('fields')) {
-            return vms.map((href) => hrefToId(href as string))
-        }
-
-        return vms as T[]
     }
 
     async isAlive(): Promise<boolean> {
@@ -112,10 +88,6 @@ class XoApi {
         } catch (error) {
             return false
         }
-    }
-
-    init(): void {
-        console.log('init')
     }
 }
 
