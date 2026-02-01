@@ -1,5 +1,6 @@
 export { default as Alarm } from './Alarm.ts'
 export { default as BackupArchive } from './BackupArchive.ts'
+export { default as BackupJob } from './BackupJob.ts'
 export { default as BackupRepository } from './BackupRepository.ts'
 export { default as Group } from './Group.ts'
 export { default as Host } from './Host.ts'
